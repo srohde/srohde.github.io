@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://srohde.github.io/blog/2013/06/07/blog-with-octopress/</loc>
+        <lastmod>2013-06-07T17:43:21-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://srohde.github.io/blog/archives/</loc>
-        <lastmod>2013-06-07T17:30:29-07:00</lastmod>
+        <lastmod>2013-06-07T17:43:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://srohde.github.io/</loc>
-        <lastmod>2013-06-07T17:30:29-07:00</lastmod>
+        <lastmod>2013-06-07T17:43:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://srohde.github.io/robots.txt</loc>
