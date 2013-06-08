@@ -50,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Sönke Rohde</a></h1>
   
-    <h2>Software Engineering and UX</h2>
+    <h2>Tech Stuff</h2>
   
 </hgroup>
 
@@ -70,6 +70,7 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="http://soenkerohde.com">Old Blog</a></li>
 </ul>
 
 </nav>
@@ -83,7 +84,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/06/07/blog-with-octopress/">Blog With Octopress</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/06/07/blog-with-octopress/">New Blog With Octopress</a></h1>
     
     
       <p class="meta">
@@ -106,11 +107,11 @@
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve been blogging using Workpress since February 2005 and I think Wordpress made the Internet a better place. Luckily I never got hacked but there are just too many stories that sites got hijacked that I finally decided to switch to a static blog using Github pages and <a href="http://octopress.org/">Octopress</a> seemed liked a perfect fit for my needs.</p>
+  <div class="entry-content"><p>I&rsquo;ve been <a href="http://soenkerohde.com">blogging using Workpress</a> since February 2005 and I think Wordpress made the Internet a better place. Luckily I never got hacked but there are just too many stories that sites got hijacked that I finally decided to switch to a static blog. Github pages with <a href="http://octopress.org/">Octopress</a> seemed like a perfect fit for my needs so here we are.</p>
 
 <p>The setup is dead simple so here my steps:</p>
 
-<p>Created a new Github repo <code>srohde.github.io</code> and a bunch of command lines:</p>
+<p>Created a new Github repo <code>srohde.github.io</code> and a bunch of command lines to initialize Octopress:</p>
 
 <pre><code>git clone git://github.com/imathis/octopress.git octopress
 cd octopress
@@ -119,7 +120,11 @@ bundle install
 rake install
 rake setup_github_pages\[git@github.com:srohde/srohde.github.io.git\] 
 rake generate &amp; rake deploy
-git add .
+</code></pre>
+
+<p>Bam! The <a href="http://srohde.github.io">static site</a> is up! Now also commit the sources to the source branch:</p>
+
+<pre><code>git add .
 git commit -am "initial commit"
 git push origin source
 </code></pre>
@@ -129,12 +134,16 @@ git push origin source
 <pre><code>rake new_post\["Blog with Octopress"\]
 subl source/_posts/2013-06-07-blog-with-octopress.markdown
 rake generate &amp; rake deploy
-git add .
+</code></pre>
+
+<p>And committing the updated and new sources again:</p>
+
+<pre><code>git add .
 git commit -am "first post"
 git push origin source
 </code></pre>
 
-<p>Bam! I&rsquo;ve got a bunch of topics I want to blog about and having a new engine will motivate me to actually do so. That&rsquo;s how devs tick I guess. Cheers!</p>
+<p>Bamgain (did I just invent that?)! I&rsquo;ve got a bunch of topics I wanted to blog about and having a new blogging engine will motivate me to actually do so. That&rsquo;s how devs tick I guess. Cheers!</p>
 </div>
   
   
@@ -151,45 +160,24 @@ git push origin source
 <aside class="sidebar">
   
     <section>
+  <h1>About Me</h1>
+  <p>Working in UX Engineering at Salesforce.com. The opinions expressed here represent my own and not those of my employer. For further information please see my profiles on <a href="http://www.linkedin.com/in/soenkerohde">LinkedIn</a> or <a href="https://www.xing.com/profile/Soenke_Rohde">Xing</a>.</p>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/06/07/blog-with-octopress/">Blog With Octopress</a>
+        <a href="/blog/2013/06/07/blog-with-octopress/">New Blog With Octopress</a>
       </li>
     
   </ul>
 </section>
-
 <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/srohde">@srohde</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'srohde',
-            count: 3,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
+ <h1>Twitter</h1>
+<a class="twitter-timeline" href="https://twitter.com/soenkerohde" data-widget-id="343185004395913219">Tweets by @soenkerohde</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </section>
-
 
 
 <section class="googleplus">

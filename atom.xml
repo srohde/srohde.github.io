@@ -4,7 +4,7 @@
   <title><![CDATA[Sönke Rohde]]></title>
   <link href="http://srohde.github.io/atom.xml" rel="self"/>
   <link href="http://srohde.github.io/"/>
-  <updated>2013-06-07T18:14:00-07:00</updated>
+  <updated>2013-06-07T20:55:02-07:00</updated>
   <id>http://srohde.github.io/</id>
   <author>
     <name><![CDATA[Sönke Rohde]]></name>
@@ -14,15 +14,15 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Blog with Octopress]]></title>
+    <title type="html"><![CDATA[New Blog with Octopress]]></title>
     <link href="http://srohde.github.io/blog/2013/06/07/blog-with-octopress/"/>
     <updated>2013-06-07T17:36:00-07:00</updated>
     <id>http://srohde.github.io/blog/2013/06/07/blog-with-octopress</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve been blogging using Workpress since February 2005 and I think Wordpress made the Internet a better place. Luckily I never got hacked but there are just too many stories that sites got hijacked that I finally decided to switch to a static blog using Github pages and <a href="http://octopress.org/">Octopress</a> seemed liked a perfect fit for my needs.</p>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been <a href="http://soenkerohde.com">blogging using Workpress</a> since February 2005 and I think Wordpress made the Internet a better place. Luckily I never got hacked but there are just too many stories that sites got hijacked that I finally decided to switch to a static blog. Github pages with <a href="http://octopress.org/">Octopress</a> seemed like a perfect fit for my needs so here we are.</p>
 
 <p>The setup is dead simple so here my steps:</p>
 
-<p>Created a new Github repo <code>srohde.github.io</code> and a bunch of command lines:</p>
+<p>Created a new Github repo <code>srohde.github.io</code> and a bunch of command lines to initialize Octopress:</p>
 
 <pre><code>git clone git://github.com/imathis/octopress.git octopress
 cd octopress
@@ -31,7 +31,11 @@ bundle install
 rake install
 rake setup_github_pages\[git@github.com:srohde/srohde.github.io.git\] 
 rake generate &amp; rake deploy
-git add .
+</code></pre>
+
+<p>Bam! The <a href="http://srohde.github.io">static site</a> is up! Now also commit the sources to the source branch:</p>
+
+<pre><code>git add .
 git commit -am "initial commit"
 git push origin source
 </code></pre>
@@ -41,12 +45,16 @@ git push origin source
 <pre><code>rake new_post\["Blog with Octopress"\]
 subl source/_posts/2013-06-07-blog-with-octopress.markdown
 rake generate &amp; rake deploy
-git add .
+</code></pre>
+
+<p>And committing the updated and new sources again:</p>
+
+<pre><code>git add .
 git commit -am "first post"
 git push origin source
 </code></pre>
 
-<p>Bam! I&rsquo;ve got a bunch of topics I want to blog about and having a new engine will motivate me to actually do so. That&rsquo;s how devs tick I guess. Cheers!</p>
+<p>Bamgain (did I just invent that?)! I&rsquo;ve got a bunch of topics I wanted to blog about and having a new blogging engine will motivate me to actually do so. That&rsquo;s how devs tick I guess. Cheers!</p>
 ]]></content>
   </entry>
   
