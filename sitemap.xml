@@ -2,15 +2,19 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://srohde.github.io/blog/2013/06/07/blog-with-octopress/</loc>
-        <lastmod>2013-06-07T20:55:01-07:00</lastmod>
+        <lastmod>2013-06-07T23:43:24-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://srohde.github.io/blog/2013/06/08/testing-node-dot-js-routes/</loc>
+        <lastmod>2013-06-08T07:33:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://srohde.github.io/blog/archives/</loc>
-        <lastmod>2013-06-07T20:55:01-07:00</lastmod>
+        <lastmod>2013-06-08T07:33:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://srohde.github.io/</loc>
-        <lastmod>2013-06-07T20:55:01-07:00</lastmod>
+        <lastmod>2013-06-08T07:33:37-07:00</lastmod>
     </url>
     <url>
         <loc>http://srohde.github.io/robots.txt</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Sönke Rohde]]></title>
   <link href="http://srohde.github.io/atom.xml" rel="self"/>
   <link href="http://srohde.github.io/"/>
-  <updated>2013-06-07T20:55:02-07:00</updated>
+  <updated>2013-06-08T07:33:38-07:00</updated>
   <id>http://srohde.github.io/</id>
   <author>
     <name><![CDATA[Sönke Rohde]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Testing Node.js Routes]]></title>
+    <link href="http://srohde.github.io/blog/2013/06/08/testing-node-dot-js-routes/"/>
+    <updated>2013-06-08T06:47:00-07:00</updated>
+    <id>http://srohde.github.io/blog/2013/06/08/testing-node-dot-js-routes</id>
+    <content type="html"><![CDATA[<p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with CoffeeScript. Check this gist:</p>
+
+<div><script src='https://gist.github.com/4229691.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the asseration library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the test framework. In this example I am testing a login function. My Node.js route (api) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implementated function signature looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">exports.login = </span><span class="nf">(req, res) -&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The parameters are request and response. This route is using GET so for the request parameter we&rsquo;ll specify the query parameters.
+When the implementation is done with the login execution it&rsquo;ll call <code>res.send(result)</code> so it&rsquo;s perfect to hook into that as well and we can do assertions against the result type and value.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[New Blog with Octopress]]></title>

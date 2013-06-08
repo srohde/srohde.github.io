@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Sönke Rohde</title>
+  <title>Category: coffeescript - Sönke Rohde</title>
   <meta name="author" content="Sönke Rohde">
 
   
-  <meta name="description" content="Lately I needed some tests for an Express Node.js project I was working on and I was surprised how easy and minimalilstic the code can look like with &hellip;">
+  <meta name="description" content="Category: coffeescript">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://srohde.github.io">
+  <link rel="canonical" href="http://srohde.github.ioblog/categories/coffeescript">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Sönke Rohde" type="application/atom+xml">
@@ -74,137 +74,40 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article role="article">
   
-  
-  
-    <article>
-      
   <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/08/testing-node-dot-js-routes/">Testing Node.js Routes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-08T06:47:00-07:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Coffeescript</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-  <div class="entry-content"><p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with CoffeeScript. Check this gist:</p>
 
-<div><script src='https://gist.github.com/4229691.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+  
+  <h2>2013</h2>
+
+<article>
+  
+<h1><a href="/blog/2013/06/08/testing-node-dot-js-routes/">Testing Node.js Routes</a></h1>
+<time datetime="2013-06-08T06:47:00-07:00" pubdate><span class='month'>Jun</span> <span class='day'>08</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/coffeescript/'>coffeescript</a>, <a class='category' href='/blog/categories/node-dot-js/'>node.js,</a></span>
+</footer>
 
 
-<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the asseration library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the test framework. In this example I am testing a login function. My Node.js route (api) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implementated function signature looks like this:</p>
+</article>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">exports.login = </span><span class="nf">(req, res) -&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The parameters are request and response. This route is using GET so for the request parameter we&rsquo;ll specify the query parameters.
-When the implementation is done with the login execution it&rsquo;ll call <code>res.send(result)</code> so it&rsquo;s perfect to hook into that as well and we can do assertions against the result type and value.</p>
 </div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/07/blog-with-octopress/">New Blog With Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
 
   
+</article>
 
-
-<time datetime="2013-06-07T17:36:00-07:00" pubdate data-updated="true">Jun 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&rsquo;ve been <a href="http://soenkerohde.com">blogging using Workpress</a> since February 2005 and I think Wordpress made the Internet a better place. Luckily I never got hacked but there are just too many stories that sites got hijacked that I finally decided to switch to a static blog. Github pages with <a href="http://octopress.org/">Octopress</a> seemed like a perfect fit for my needs so here we are.</p>
-
-<p>The setup is dead simple so here my steps:</p>
-
-<p>Created a new Github repo <code>srohde.github.io</code> and a bunch of command lines to initialize Octopress:</p>
-
-<pre><code>git clone git://github.com/imathis/octopress.git octopress
-cd octopress
-gem install bundler
-bundle install
-rake install
-rake setup_github_pages\[git@github.com:srohde/srohde.github.io.git\] 
-rake generate &amp; rake deploy
-</code></pre>
-
-<p>Bam! The <a href="http://srohde.github.io">static site</a> is up! Now also commit the sources to the source branch:</p>
-
-<pre><code>git add .
-git commit -am "initial commit"
-git push origin source
-</code></pre>
-
-<p>Creating a first post (this very one) couldn&rsquo;t be easier:</p>
-
-<pre><code>rake new_post\["Blog with Octopress"\]
-subl source/_posts/2013-06-07-blog-with-octopress.markdown
-rake generate &amp; rake deploy
-</code></pre>
-
-<p>And committing the updated and new sources again:</p>
-
-<pre><code>git add .
-git commit -am "first post"
-git push origin source
-</code></pre>
-
-<p>Bamgain (did I just invent that?)! I&rsquo;ve got a bunch of topics I wanted to blog about and having a new blogging engine will motivate me to actually do so. That&rsquo;s how devs tick I guess. Cheers!</p>
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -245,6 +148,7 @@ git push origin source
 
   
 </aside>
+
 
     </div>
   </div>
