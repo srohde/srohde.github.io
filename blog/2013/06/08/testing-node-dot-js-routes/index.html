@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Testing Node.js Routes - Sönke Rohde</title>
+  <title>Testing Node.js Express Routes - Sönke Rohde</title>
   <meta name="author" content="Sönke Rohde">
 
   
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Testing Node.js Routes</h1>
+      <h1 class="entry-title">Testing Node.js Express Routes</h1>
     
     
       <p class="meta">
@@ -102,13 +102,13 @@
   </header>
 
 
-<div class="entry-content"><p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with CoffeeScript. Check this gist:</p>
+<div class="entry-content"><p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with <a href="http://coffeescript.org">CoffeeScript</a>. Check out this gist:</p>
 
 <div><script src='https://gist.github.com/4229691.js'></script>
 <noscript><pre><code></code></pre></noscript></div>
 
 
-<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the asseration library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the test framework. In this example I am testing a login function. My Node.js route (api) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implementated function signature looks like this:</p>
+<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the assertion library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the testing framework. In this example I am testing a login function. My Node.js route (api.coffee) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implemented function signature looks like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">exports.login = </span><span class="nf">(req, res) -&gt;</span>
@@ -192,7 +192,7 @@ When the implementation is done with the login execution it&rsquo;ll call <code>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/06/08/testing-node-dot-js-routes/">Testing Node.js Routes</a>
+        <a href="/blog/2013/06/08/testing-node-dot-js-routes/">Testing Node.js Express Routes</a>
       </li>
     
       <li class="post">

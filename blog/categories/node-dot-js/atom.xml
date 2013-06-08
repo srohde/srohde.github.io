@@ -4,7 +4,7 @@
   <title><![CDATA[Category: node.js, | Sönke Rohde]]></title>
   <link href="http://srohde.github.io/blog/categories/node-dot-js/atom.xml" rel="self"/>
   <link href="http://srohde.github.io/"/>
-  <updated>2013-06-08T07:33:38-07:00</updated>
+  <updated>2013-06-08T12:12:00-07:00</updated>
   <id>http://srohde.github.io/</id>
   <author>
     <name><![CDATA[Sönke Rohde]]></name>
@@ -14,17 +14,17 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Testing Node.js Routes]]></title>
+    <title type="html"><![CDATA[Testing Node.js Express Routes]]></title>
     <link href="http://srohde.github.io/blog/2013/06/08/testing-node-dot-js-routes/"/>
     <updated>2013-06-08T06:47:00-07:00</updated>
     <id>http://srohde.github.io/blog/2013/06/08/testing-node-dot-js-routes</id>
-    <content type="html"><![CDATA[<p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with CoffeeScript. Check this gist:</p>
+    <content type="html"><![CDATA[<p>Lately I needed some tests for an <a href="http://expressjs.com/">Express</a> <a href="http://nodejs.org/">Node.js</a> project I was working on and I was surprised how easy and minimalilstic the code can look like with <a href="http://coffeescript.org">CoffeeScript</a>. Check out this gist:</p>
 
 <p><div><script src='https://gist.github.com/4229691.js'></script>
 <noscript><pre><code></code></pre></noscript></div>
 </p>
 
-<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the asseration library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the test framework. In this example I am testing a login function. My Node.js route (api) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implementated function signature looks like this:</p>
+<p>I am using <a href="https://github.com/visionmedia/should.js/">should.js</a> as the assertion library and <a href="http://visionmedia.github.io/mocha/">mocha</a> as the testing framework. In this example I am testing a login function. My Node.js route (api.coffee) is being imported and then I&rsquo;ll test first if the login function actually exists. After that I am invoking the login function and make assertions against the result. The implemented function signature looks like this:</p>
 
 <p><code>coffeescript
 exports.login = (req, res) -&gt;
