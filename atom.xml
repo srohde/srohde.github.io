@@ -4,7 +4,7 @@
   <title><![CDATA[Sönke Rohde]]></title>
   <link href="http://srohde.github.io/atom.xml" rel="self"/>
   <link href="http://srohde.github.io/"/>
-  <updated>2013-06-10T00:11:49-07:00</updated>
+  <updated>2013-06-10T18:58:34-07:00</updated>
   <id>http://srohde.github.io/</id>
   <author>
     <name><![CDATA[Sönke Rohde]]></name>
@@ -12,6 +12,256 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Location Based Services with MongoDB]]></title>
+    <link href="http://srohde.github.io/blog/2013/06/11/location-based-services-with-mongodb/"/>
+    <updated>2013-06-11T08:00:00-07:00</updated>
+    <id>http://srohde.github.io/blog/2013/06/11/location-based-services-with-mongodb</id>
+    <content type="html"><![CDATA[<p><a href="http://www.mongodb.org/">MongoDB</a> is an open-source NoSQL database. It offers great features to build <a href="https://en.wikipedia.org/wiki/Location-based_service">Location Based Services</a> with build in support for <a href="http://docs.mongodb.org/manual/applications/geospatial-indexes/">Geospatial Indexes and Queries</a>.</p>
+
+<p>I&rsquo;ve been using MongoDB with <a href="http://nodejs.org">Node.js</a> on <a href="http://heroku.com">Heroku</a> so here a quick walk through on how to set it up and use it:</p>
+
+<h2>Setup</h2>
+
+<h3>Local</h3>
+
+<p>Install and Run:</p>
+
+<pre><code>$ brew install mongo
+$ mongod
+</code></pre>
+
+<p>On lesson I&rsquo;ve learned is to always try to use MongoDB from the shell first before you start with actual code. <strong>After</strong> having the command right in the shell translate it into code and test your actual implementation. Here some shell commands to get you started:</p>
+
+<pre><code>$ mongo
+&gt; use mydbname
+</code></pre>
+
+<p>For this example we store locations in a collection called <code>locations</code>
+Make sure you have set the geo spacial index:</p>
+
+<pre><code>&gt; db.locations.ensureIndex({loc: '2d'})
+&gt; db.locations.getIndexKeys()
+</code></pre>
+
+<p>Should output <code>[ { "_id" : 1 }, { "loc" : "2d" } ]</code></p>
+
+<h3>Heroku</h3>
+
+<p>On the Heroku side it&rsquo;s pretty easy to set up as well:</p>
+
+<pre><code>$ heroku addons:add mongohq:sandbox
+</code></pre>
+
+<p>To make sure the location index is also working on Heroku, login, select your app and select the MongoHQ add-on. This brings you to the MongoHQ admin interface. Then select your locations collection and make sure the <code>Indexes</code> are configured correctly. In my case it shows as <code>{ key: { loc: "2d" }, v: 1, ns: "appXXX.locations", name: "loc_2d" }</code></p>
+
+<h2>MongoDB Shell</h2>
+
+<h3>Insert Location</h3>
+
+<p>When you insert a new location it&rsquo;s essential to store the location in an array with [lon, lat] and <strong>not</strong> [lat, lon]. This was a mistake I made first and it took me a while to figure that out because all my queries were returning the wrong stuff.</p>
+
+<p>Let&rsquo;s insert some example locations (I&rsquo;ve been using <a href="http://www.latlong.net/">LATLONG.net</a>):</p>
+
+<pre><code>&gt; db.locations.insert({name: "Ferry Building", city: "San Francisco", loc:[-122.3937, 37.7955]})
+&gt; db.locations.insert({name: "Union Square", city: "San Francisco", loc:[-122.407437, 37.787994]})
+&gt; db.locations.insert({name: "Duboce Park", city: "San Francisco", loc:[-122.433453, 37.769422]}) 
+&gt; db.locations.insert({name: "Parque Ibirapuera", city: "São Paulo",loc:[-46.657490, -23.586996]})
+&gt; db.locations.insert({name: "Big Ben", city: "London",loc:[-0.124575, 51.500705]})
+&gt; db.locations.insert({name: "Fischmarkt", city: "Hamburg",loc:[9.937740, 53.544527]})
+&gt; db.locations.insert({name: "Opera House", city: "Sydney",loc:[151.214993, -33.857767]})
+</code></pre>
+
+<p>Now you can query all locations with:</p>
+
+<pre><code>&gt; db.locations.find()
+</code></pre>
+
+<p>Just as a sanity check: Everything west of Greenwich has a longitude &lt; 0 and east > 0. Everything in the northern hemisphere has a latitude > 0 and in the southern hemisphere &lt; 0 or as Wikipedia puts it:</p>
+
+<blockquote><p>In geography, latitude (φ) is a geographic coordinate that specifies the north-south position of a point on the Earth&#8217;s surface. Latitude is an angle (defined below) which ranges from 0° at the Equator to 90° (North or South) at the poles.</p><footer><strong>http://en.wikipedia.org/wiki/Latitude</strong></footer></blockquote>
+
+
+
+
+<blockquote><p>Longitude (/ˈlɒndʒɨtjuːd/ or /ˈlɒŋɡɨtjuːd/),[1] is a geographic coordinate that specifies the east-west position of a point on the Earth&#8217;s surface. [&#8230;] The longitude of other places is measured as an angle east or west from the Prime Meridian, ranging from 0° at the Prime Meridian to +180° eastward and −180° westward.</p><footer><strong>http://en.wikipedia.org/wiki/Longitude</strong></footer></blockquote>
+
+
+<h3>Query Locations</h3>
+
+<p>After we have inserted some test locations let&rsquo;s try to make a geospatial query. In my case I wanted to find locations close to the current location so let&rsquo;s pretend we are at the Ferry Building in San Francisco.</p>
+
+<pre><code>&gt; db.runCommand({geoNear: "locations", near: [-122.3937, 37.7955], num: 10, spherical:true})
+</code></pre>
+
+<p>The result is ordered by distance and the Ferry Building should be on top with a <code>dis</code> of 0. To have the distance in a human readable unit you can use the <a href="http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/#geospatial-indexes-distance-multiplier">distanceMultiplier attribute</a> and select for instance the earth radius in miles which is 3959. This will show all distances in miles:</p>
+
+<pre><code>&gt; db.runCommand({geoNear: "locations", near: [-122.3937, 37.7955], num: 10, spherical:true,
+distanceMultiplier: 3959})
+</code></pre>
+
+<p>If you want to restrict the search to a radius like 10 miles you&rsquo;ll have to use the maxDistance attribute:</p>
+
+<pre><code>&gt; db.runCommand({geoNear: "locations", near: [-122.3937, 37.7955], num: 10, spherical:true,
+distanceMultiplier: 3959, maxDistance:10/3959})
+</code></pre>
+
+<p>If you want kilometers use <strong>6371</strong>m as the radius of the earth.</p>
+
+<p>Now that everything is working in the shell we can start with actual code.</p>
+
+<h2>Node.js Code</h2>
+
+<p>This example is written with CoffeeScript and has been extracted from an actual project and usually you would do more validation and parsing but you should get the idea on how the <a href="http://expressjs.com/">Express</a> route is working:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1"># app.coffee</span>
+</span><span class='line'><span class="nv">express = </span><span class="nx">require</span> <span class="s">&#39;express&#39;</span>
+</span><span class='line'><span class="nv">api = </span><span class="nx">require</span> <span class="s">&#39;./routes/api&#39;</span>
+</span><span class='line'><span class="nv">app = module.exports = </span><span class="nx">express</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">apiVersion = </span><span class="s">&#39;v1&#39;</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">post</span> <span class="s">&quot;/api/</span><span class="si">#{</span><span class="nx">apiVersion</span><span class="si">}</span><span class="s">/location&quot;</span><span class="p">,</span> <span class="nx">api</span><span class="p">.</span><span class="nx">location</span>
+</span><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">get</span> <span class="s">&quot;/api/</span><span class="si">#{</span><span class="nx">apiVersion</span><span class="si">}</span><span class="s">/location&quot;</span><span class="p">,</span> <span class="nx">api</span><span class="p">.</span><span class="nx">location</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1"># routes/api.coffee</span>
+</span><span class='line'><span class="nv">mongo = </span><span class="nx">require</span> <span class="s">&#39;mongodb&#39;</span>
+</span><span class='line'><span class="nv">assert = </span><span class="nx">require</span> <span class="s">&#39;assert&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">ObjectID = </span><span class="nx">mongo</span><span class="p">.</span><span class="nx">BSONPure</span><span class="p">.</span><span class="nx">ObjectID</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">dbConnection = </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MONGOHQ_URL</span> <span class="o">or</span> <span class="s">&#39;mongodb://localhost/mydbname&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">locations = </span><span class="kc">null</span>
+</span><span class='line'><span class="nv">db = </span><span class="kc">null</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">mongo</span><span class="p">.</span><span class="nx">Db</span><span class="p">.</span><span class="nx">connect</span> <span class="nx">dbConnection</span><span class="p">,</span> <span class="nf">(err, database) -&gt;</span>
+</span><span class='line'>  <span class="nv">db = </span><span class="nx">database</span>
+</span><span class='line'>  <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">err</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">database</span><span class="p">.</span><span class="nx">collection</span> <span class="s">&#39;locations&#39;</span><span class="p">,</span> <span class="nf">(err, collection) -&gt;</span>
+</span><span class='line'>    <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">err</span>
+</span><span class='line'>    <span class="nv">locations = </span><span class="nx">collection</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">exports.location = </span><span class="nf">(req, res) -&gt;</span>
+</span><span class='line'>  <span class="k">switch</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># Create location</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s">&#39;POST&#39;</span>
+</span><span class='line'>      <span class="c1"># In this example I am using upsert to update the record with the existing _id when present or create a new ObjectID if not:</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nv">location = </span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+</span><span class='line'>      <span class="nv">location.loc = </span><span class="p">[</span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">location</span><span class="p">.</span><span class="nx">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nv">isUpdate = </span><span class="nx">location</span><span class="p">.</span><span class="nx">_id</span><span class="o">?</span>
+</span><span class='line'>      <span class="nv">id = </span><span class="k">if</span> <span class="nx">isUpdate</span> <span class="k">then</span> <span class="nx">location</span><span class="p">.</span><span class="nx">_id</span> <span class="k">else</span> <span class="k">new</span> <span class="nx">ObjectID</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">locations</span><span class="p">.</span><span class="nx">update</span> <span class="p">{</span><span class="nx">_id</span><span class="o">:</span><span class="nx">id</span><span class="p">},</span> <span class="nx">location</span><span class="p">,</span> <span class="p">{</span><span class="nx">upsert</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span> <span class="nx">safe</span><span class="o">:</span><span class="kc">true</span><span class="p">},</span> <span class="nf">(err, result) -&gt;</span>
+</span><span class='line'>        <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">err</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">location</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># Query locations</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s">&#39;GET&#39;</span>
+</span><span class='line'>      <span class="nv">lat = </span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">[</span><span class="s">&quot;lat&quot;</span><span class="p">]</span>
+</span><span class='line'>      <span class="nv">lon = </span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">[</span><span class="s">&quot;lon&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">lat</span> <span class="o">and</span> <span class="nx">lon</span>
+</span><span class='line'>        <span class="nv">lat = </span><span class="nb">parseFloat</span> <span class="nx">lat</span>
+</span><span class='line'>        <span class="nv">lon = </span><span class="nb">parseFloat</span> <span class="nx">lon</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1"># validate that lat/lon are numeric</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">400</span> <span class="k">if</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nx">lat</span><span class="p">)</span> <span class="o">or</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nx">lon</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1"># validate that lat/lon are in the right range</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="mi">400</span> <span class="k">if</span> <span class="nx">lon</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span> <span class="o">or</span> <span class="nx">lat</span> <span class="o">&gt;</span> <span class="mi">180</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nv">geoNear = </span>
+</span><span class='line'>          <span class="nv">geoNear: </span><span class="nx">locations</span>
+</span><span class='line'>          <span class="nv">near: </span><span class="p">[</span><span class="nx">lon</span><span class="p">,</span> <span class="nx">lat</span><span class="p">]</span>
+</span><span class='line'>          <span class="nv">spherical: </span><span class="kc">true</span>
+</span><span class='line'>          <span class="nv">maxDistance: </span><span class="mi">10</span> <span class="o">/</span> <span class="mi">3959</span>
+</span><span class='line'>          <span class="nv">distanceMultiplier: </span><span class="mi">3959</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">db</span><span class="p">.</span><span class="nx">command</span> <span class="nx">geoNear</span><span class="p">,</span> <span class="nf">(err, locations) -&gt;</span>
+</span><span class='line'>          <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">err</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span> <span class="nx">locations</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Testing Node.js Express Routes]]></title>
