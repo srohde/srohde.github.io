@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Location Based Services with MongoDB"
-date: 2013-06-10 11:27
+date: 2013-06-11 08:00
 comments: true
-categories: 
-published: false
+categories: node.js, mongodb, coffeescript
 ---
 
 [MongoDB](http://www.mongodb.org/) is an open-source NoSQL database. It offers great features to build [Location Based Services](https://en.wikipedia.org/wiki/Location-based_service) with build in support for [Geospatial Indexes and Queries](http://docs.mongodb.org/manual/applications/geospatial-indexes/).
@@ -74,11 +73,11 @@ Longitude (/ˈlɒndʒɨtjuːd/ or /ˈlɒŋɡɨtjuːd/),[1] is a geographic coord
 
 ### Query Locations
 
-After we have inserted some test locations let's try to make a geo-spatial query. In my case I wanted to find locations close to me so let's pretend we are at the Ferry Building in San Francisco.
+After we have inserted some test locations let's try to make a geospatial query. In my case I wanted to find locations close to the current location so let's pretend we are at the Ferry Building in San Francisco.
 
     > db.runCommand({geoNear: "locations", near: [-122.3937, 37.7955], num: 10, spherical:true})
 
-The result is ordered by distance and the Ferry Building should be on top with a `dis` of 0. To have the distance in a human readable unit you can use the [distanceMultiplier attribute](http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/#geospatial-indexes-distance-multiplier) and select for instance the earth radius in miles which is 3959:
+The result is ordered by distance and the Ferry Building should be on top with a `dis` of 0. To have the distance in a human readable unit you can use the [distanceMultiplier attribute](http://docs.mongodb.org/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/#geospatial-indexes-distance-multiplier) and select for instance the earth radius in miles which is 3959. This will show all distances in miles:
 
     > db.runCommand({geoNear: "locations", near: [-122.3937, 37.7955], num: 10, spherical:true,
     distanceMultiplier: 3959})
@@ -94,9 +93,21 @@ Now that everything is working in the shell we can start with actual code.
 
 ## Node.js Code
 
-This example is written with CoffeeScript and is better pseudo code. It has been extracted from an actual project and usually you would do more validation and parsing but you should get the idea on how the [Express](http://expressjs.com/) route is working:
+This example is written with CoffeeScript and has been extracted from an actual project and usually you would do more validation and parsing but you should get the idea on how the [Express](http://expressjs.com/) route is working:
 
 ``` coffeescript
+# app.coffee
+express = require 'express'
+api = require './routes/api'
+app = module.exports = express()
+
+apiVersion = 'v1'
+app.post "/api/#{apiVersion}/location", api.location
+app.get "/api/#{apiVersion}/location", api.location
+```
+
+``` coffeescript
+# routes/api.coffee
 mongo = require 'mongodb'
 assert = require 'assert'
 
@@ -117,6 +128,8 @@ mongo.Db.connect dbConnection, (err, database) ->
 
 exports.location = (req, res) ->
   switch req.method
+
+    # Create location
     when 'POST'
       # In this example I am using upsert to update the record with the existing _id when present or create a new ObjectID if not:
 
@@ -129,6 +142,8 @@ exports.location = (req, res) ->
       locations.update {_id:id}, location, {upsert:true, safe:true}, (err, result) ->
         assert.equal null, err
         res.send JSON.stringify(location)
+    
+    # Query locations
     when 'GET'
       lat = req.query["lat"]
       lon = req.query["lon"]
@@ -154,4 +169,3 @@ exports.location = (req, res) ->
           assert.equal null, err
           res.send locations
 ```
-

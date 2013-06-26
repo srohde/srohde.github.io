@@ -1,0 +1,45 @@
+---
+layout: post
+title: "zsh shell"
+date: 2013-06-25 09:21
+comments: true
+categories: general
+---
+
+The terminal is next to the editor probably the most important tool for a developer. Being comfortable executing shell commands increases productivty significantly. And that's what it's about at the end. Being able to focus on solving the problem and not dealing with tools and workflows to get there. For a long time I am using [iTerm 2](http://www.iterm2.com/) but that's only the terminal and does not change the actuall shell.
+
+I was browsing [dotfiles](http://dotfiles.github.io/) and came across [zsh](http://zsh.sourceforge.net/), an alternative to the default bash shell on OSX.
+
+I've been using zsh for a couple of weeks now and like especially the dot-files [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) which provide a great default configuration and git prompts. Here the steps on how I've set things up:
+
+Make zsh default shell:
+
+    chsh -s /bin/zsh
+
+Open a new terminal window to see zsh!
+
+Install oh-my-zsh (you gotta trust that script so make sure you want to do that):
+
+    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+
+Now some configiration. Edit `~/zshrc`.
+I like the default theme but set `ZSH_THEME="random"` and open some new shells to explore some other themes you might like better.
+
+Oh-my-zsh comes with a bunch of plugins and only a few are set by default.
+Here is my plugin list:
+
+    plugins=(cake git sublime osx git-flow git-extras npm node theme web-search battery)
+
+I always use the [Sublime Text 2](http://www.sublimetext.com/2) plugin which just creates a `st` alias.
+
+The web-search plugin is quite nice since now you can `google` or `bing` from the command line:
+
+    $ google bing
+    $ bing google
+
+Explore all the plugins in `~/.oh-my-zsh/plugins` to enable what fits your workflow. I discovered [git-extras](https://github.com/visionmedia/git-extras) doing this which is really awesome.
+
+If you want to use [z](https://github.com/rupa/z) here two lines how to set it up:
+
+    git clone git@github.com:rupa/z.git ~/.z
+    echo \\n. ~/.z/z.sh >> ~/.zshrc
