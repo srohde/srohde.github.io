@@ -9,7 +9,7 @@
   <meta name="author" content="Sönke Rohde">
 
   
-  <meta name="description" content="MongoDB is an open-source NoSQL database. It offers great features to build Location Based Services with build in support for Geospatial Indexes and &hellip;">
+  <meta name="description" content="The terminal is next to the editor probably the most important tool for a developer. Being comfortable executing shell commands increases productivty &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/25/zsh-shell/">Zsh Shell</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T09:21:00-07:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The terminal is next to the editor probably the most important tool for a developer. Being comfortable executing shell commands increases productivty significantly. And that&rsquo;s what it&rsquo;s about at the end. Being able to focus on solving the problem and not dealing with tools and workflows to get there. For a long time I am using <a href="http://www.iterm2.com/">iTerm 2</a> but that&rsquo;s only the terminal and does not change the actuall shell.</p>
+
+<p>I was browsing <a href="http://dotfiles.github.io/">dotfiles</a> and came across <a href="http://zsh.sourceforge.net/">zsh</a>, an alternative to the default bash shell on OSX.</p>
+
+<p>I&rsquo;ve been using zsh for a couple of weeks now and like especially the dot-files <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a> which provide a great default configuration and git prompts. Here the steps on how I&rsquo;ve set things up:</p>
+
+<p>Make zsh default shell:</p>
+
+<pre><code>chsh -s /bin/zsh
+</code></pre>
+
+<p>Open a new terminal window to see zsh!</p>
+
+<p>Install oh-my-zsh (you gotta trust that script so make sure you want to do that):</p>
+
+<pre><code>curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
+</code></pre>
+
+<p>Now some configiration. Edit <code>~/zshrc</code>.
+I like the default theme but set <code>ZSH_THEME="random"</code> and open some new shells to explore some other themes you might like better.</p>
+
+<p>Oh-my-zsh comes with a bunch of plugins and only a few are set by default.
+Here is my plugin list:</p>
+
+<pre><code>plugins=(cake git sublime osx git-flow git-extras npm node theme web-search battery)
+</code></pre>
+
+<p>I always use the <a href="http://www.sublimetext.com/2">Sublime Text 2</a> plugin which just creates a <code>st</code> alias.</p>
+
+<p>The web-search plugin is quite nice since now you can <code>google</code> or <code>bing</code> from the command line:</p>
+
+<pre><code>$ google bing
+$ bing google
+</code></pre>
+
+<p>Explore all the plugins in <code>~/.oh-my-zsh/plugins</code> to enable what fits your workflow. I discovered <a href="https://github.com/visionmedia/git-extras">git-extras</a> doing this which is really awesome.</p>
+
+<p>If you want to use <a href="https://github.com/rupa/z">z</a> here two lines how to set it up:</p>
+
+<pre><code>git clone git@github.com:rupa/z.git ~/.z
+echo \\n. ~/.z/z.sh &gt;&gt; ~/.zshrc
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -554,6 +631,10 @@ git push origin source
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/06/25/zsh-shell/">Zsh Shell</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/06/11/location-based-services-with-mongodb/">Location Based Services With MongoDB</a>
