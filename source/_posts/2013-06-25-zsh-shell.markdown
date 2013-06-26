@@ -12,7 +12,7 @@ I was browsing [dotfiles](http://dotfiles.github.io/) and came across [zsh](http
 
 I've been using zsh for a couple of weeks now and like especially the dot-files [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) which provide a great default configuration and git prompts. Here the steps on how I've set things up:
 
-Make zsh default shell:
+Make zsh your default shell:
 
     chsh -s /bin/zsh
 
